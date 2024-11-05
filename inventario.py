@@ -14,7 +14,7 @@ class inventario:
         
     def consulta_productos(self):
         cur = self.cnn.cursor()
-        cur.execute("SELECT * FROM productos ORDER BY ID DESC LIMIT 20") #ORDER BY ID DESC LIMIT 20
+        cur.execute("SELECT * FROM productos") #ORDER BY ID DESC LIMIT 20
         datos = cur.fetchall()
         cur.close()    
         return datos
@@ -64,4 +64,4 @@ class inventario:
         n=cur.rowcount
         self.cnn.commit()    
         cur.close()
-        return n   
+        return n

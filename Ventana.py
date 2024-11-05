@@ -33,7 +33,6 @@ class Ventana(Frame):
         self.btnCancel.configure(state=estado)
 
     def habilitarCajasTexto(self,estado):
-        # self.txtID.configure(state=estado)
         self.txtPRODUCT.configure(state=estado)
         self.txtCATEGORY.configure(state=estado)
         self.txtQUANTITY.configure(state=estado)
@@ -43,7 +42,6 @@ class Ventana(Frame):
         self.txtBRAND.configure(state=estado)
 
     def limpiarCajas(self):
-        # self.txtID.delete(0,END)
         self.txtPRODUCT.delete(0,END)
         self.txtCATEGORY.delete(0,END)
         self.txtQUANTITY.delete(0,END)
@@ -66,6 +64,7 @@ class Ventana(Frame):
     def limpiaGrid(self):
         for item in self.grid.get_children():
             self.grid.delete(item)
+    
     def fAtras(self):
         self.limpiaGrid()
         self.llenaDatos()
@@ -74,7 +73,7 @@ class Ventana(Frame):
         self.habilitarBotonesOperaciones("normal")
         self.limpiarCajas()
         self.habilitarCajasTexto("disabled")
-        
+    
     def fSearch(self):
         buscar = self.txtPRODUCT2.get()
         if buscar:
@@ -89,7 +88,7 @@ class Ventana(Frame):
                 messagebox.showinfo("Buscar", "No se encontraron productos con ese nombre.")
         else:
             messagebox.showwarning("Buscar", "Por favor ingresa un producto para buscar.")
-        
+    
     def fSearchLabel(self):
         producto = self.txtPRODUCT3.get()
         marca=self.txtMARCA.get()
@@ -103,9 +102,7 @@ class Ventana(Frame):
                 
                 if not datos:
                     messagebox.showinfo("Buscar", "No se encontraron productos con ese nombre.")
-            
-        
-        
+    
     def fNew(self):
         self.habilitarCajasTexto("normal")
         self.habilitarBotonesCancel("normal")
@@ -177,6 +174,9 @@ class Ventana(Frame):
             self.habilitarCajasTexto("disabled")
     
     def create_widgets(self):
+        # -----------------------------------------POSICIONES Y COLORES DE FRAMES---------------------------------------------
+        # --------------------------------------------------------------------------------------------------------------------
+
         frame1=Frame(self, bg="#A3EDAF") #CUADRADO SUPERIOR IZQUIERDO BOTONES
         frame1.place(x=0, y=0, width=200, height=150)
         frame2=Frame(self, bg="#BAF8C7") #SUPERIOR LOGO
@@ -186,17 +186,25 @@ class Ventana(Frame):
         frame4=Frame(self, bg="#E1FCE9") #BODY CONSULTAS
         frame4.place(x=200,y=150,width=900,height=580)
 
-        # BOTON BUSCAR POR PRODUCTO
+        # --------------------------------------------BOTON BUSCAR PRODUCTO----------------------------------------------------
+        # ------------------------------CONSTRUCCION Y POSICION----------------------------------------------------------------
+
         label9=Label(frame2,text="PRODUCTO: ",font=("Comic Sans",12))
         label9.place(x=10,y=50)
         self.txtPRODUCT2=Entry(frame2)
         self.txtPRODUCT2.place(x=10,y=80,width=180, height=20)
+
+        # --------------------BOTONES BUSCAR Y ATRAS  PARA BUSCAR POR PRODUCTO-----------------------------------------------
+        # --------------------CONSTRUCCION Y POSICION------------------------------------------------------------------------
+
         self.btnSearch=Button(frame2,text="Buscar",command=self.fSearch, bg="#E1FCE9", fg="black", font=10)
         self.btnSearch.place(x=200,y=75,width=100,height=30)
         self.btnBack=Button(frame2,text="Atrás",command=self.fAtras, bg="#E1FCE9", fg="black",font=10)
         self.btnBack.place(x=310,y=75,width=100,height=30)
 
-        # BOTON BUSCAR PRODUCTO por marca
+        # --------------------------------------------BOTON BUSCAR PRODUCTO por marca------------------------------------------
+        # ------------------------------CONSTRUCCION Y POSICION----------------------------------------------------------------
+
         label10=Label(frame2,text="PRODUCTO: ",font=("Comic Sans",12))
         label10.place(x=450,y=50)
         label11=Label(frame2,text="MARCA: ",font=("Comic Sans",12))
@@ -207,14 +215,18 @@ class Ventana(Frame):
         self.txtMARCA=Entry(frame2)
         self.txtMARCA.place(x=570,y=80,width=180, height=20)
 
+        # --------------------BOTONES BUSCAR Y ATRAS  PARA FILTRAR POR PRODUCTO Y POR MARCA----------------------------------
+        # --------------------CONSTRUCCION Y POSICION------------------------------------------------------------------------
+
         self.btnSearchLabel=Button(frame2,text="Buscar",command=self.fSearchLabel, bg="#E1FCE9", fg="black", font=10)
         self.btnSearchLabel.place(x=775,y=40,width=100,height=30)
         self.btnBack=Button(frame2,text="Atrás",command=self.fAtras, bg="#E1FCE9", fg="black",font=10)
         self.btnBack.place(x=775,y=80,width=100,height=30)
 
 
-        # BOTONES NUEVO, CAMBIAR, BORRAR
-        # CONSTRUCCION Y POSICION
+        # -------------------------------------------------BOTONES NUEVO, CAMBIAR, BORRAR-------------------------------------
+        # --------------------CONSTRUCCION Y POSICION-------------------------------------------------------------------------
+
         self.btnNew=Button(frame1,text="NUEVO",command=self.fNew, bg="#E1FCE9", fg="black", font=10)
         self.btnNew.place(x=50,y=20,width=100,height=30)
 
@@ -223,6 +235,9 @@ class Ventana(Frame):
 
         self.btnDelete=Button(frame1,text="BORRAR",command=self.fDelete, bg="#E1FCE9", fg="black", font=10)
         self.btnDelete.place(x=50,y=100,width=100,height=30)
+
+        # -----------------------------------------------LABELS Y HOLDERS INPUT------------------------------------------------------
+        # -------------------CONSTRUCCION Y POSICIONAMIENTO--------------------------------------------------------------------------
 
         label2=Label(frame3,text="PRODUCTO: ",font=("Comic Sans",12))
         label2.place(x=10,y=50)
@@ -259,14 +274,21 @@ class Ventana(Frame):
         self.txtBRAND=Entry(frame3)
         self.txtBRAND.place(x=10,y=440,width=180, height=20)
         
+        # ------------------------------------------------------BOTONES GUARDAR Y CANCELAR-------------------------------------------------
+        #--------- ------------------------------------------------------PARA LOS REGISTROS------------------------------------------------
 
         self.btnSave=Button(frame3,text="GUARDAR",command=self.fSave, bg="#E1FCE9", fg="black", font=10)
         self.btnSave.place(x=40,y=480,width=120,height=30)
-
         self.btnCancel=Button(frame3,text="CANCELAR",command=self.fCancel, bg="#E1FCE9", fg="black", font=10)
         self.btnCancel.place(x=40,y=520,width=120,height=30)
 
+        # --------------------------------------------------------------VISUALIZACION GRILLA------------------------------------------------
+        # ----------------------------------------------------------------------------------------------------------------------------------
+
         self.grid=ttk.Treeview(frame4, columns=("col1","col2","col3","col4","col5","col6","col7"))
+
+        # -------------------------------------------------------DEFINICION DE LA GRILLA (COLUMNAS)-----------------------------------------
+        # ----------------------------------------------------------------------------------------------------------------------------------
 
         self.grid.column("#0",width=50)
         self.grid.column("col1", width=140,anchor=CENTER)
@@ -277,6 +299,9 @@ class Ventana(Frame):
         self.grid.column("col6", width=120,anchor=CENTER)
         self.grid.column("col7", width=90,anchor=CENTER)
 
+        #--------------- DEFINICION DE LOS NOMBRES DE LAS COLUMNAS---------------------------------------------------------------------------
+        #------------------------------------------------------------------------------------------------------------------------------------
+
         self.grid.heading("#0", text="ID",anchor=CENTER)
         self.grid.heading("col1", text="PRODUCTO",anchor=CENTER)
         self.grid.heading("col2", text="LINEA",anchor=CENTER)
@@ -286,6 +311,9 @@ class Ventana(Frame):
         self.grid.heading("col6", text="COSTO_UNITARIO",anchor=CENTER)
         self.grid.heading("col7", text="MARCA",anchor=CENTER)
 
+        # ---------------DEFINICION DE SCROLLBAR-----------------------------------------------------------------------------------------------
+        # -------------------------------------------------------------------------------------------------------------------------------------
+        
         self.grid.pack(side=LEFT, fill=Y)
         sb=Scrollbar(frame4, orient=VERTICAL)
         sb.pack(side=RIGHT,fill=Y)
