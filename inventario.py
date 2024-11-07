@@ -21,7 +21,6 @@ class inventario:
 
     def buscar_productos(self, WHERE=""):
         cur = self.cnn.cursor()
-        # Usa parámetros con %s para evitar SQL Injection
         sql="SELECT * FROM productos {}".format((WHERE)).upper()
         cur.execute(sql)
         datos = cur.fetchall()
@@ -30,7 +29,6 @@ class inventario:
     
     def buscar_productoymarca(self, WHERE=""):
         cur = self.cnn.cursor()
-        # Usa parámetros con %s para evitar SQL Injection
         sql="SELECT * FROM productos {}".format((WHERE)).upper()
         cur.execute(sql)
         datos = cur.fetchall()
