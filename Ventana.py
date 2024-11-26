@@ -2,6 +2,8 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
+import pymysql
+import pandas as pd
 
 from inventario import *
 
@@ -53,14 +55,16 @@ class Ventana(Frame):
         self.txtPRODUCT3.delete(0,END)
         self.txtMARCA.delete(0,END)
 
-    def llenaDatos(self):
-        datos = self.data.consulta_productos()        
+    def llenaDatos(self):  
+        datos = self.data.consulta_productos_combinados()  
+        self.limpiaGrid()      
         for row in datos:            
             self.grid.insert("",END,text=row[0], values=(row[1],row[2], row[3],row[4],row[5],row[6],row[7]))
-
+    
         if len(self.grid.get_children())>0: 
             self.grid.selection_set(self.grid.get_children()[0]) #SELECCIONAR EL PRIMER REGISTRO
 
+  
     def limpiaGrid(self):
         for item in self.grid.get_children():
             self.grid.delete(item)
@@ -259,15 +263,15 @@ class Ventana(Frame):
         self.txtPRICE=Entry(frame3)
         self.txtPRICE.place(x=10,y=260,width=180, height=20)
 
-        label6=Label(frame3,text="COLOR: ",font=("Comic Sans",12))
-        label6.place(x=10,y=290)
-        self.txtCOLOR=Entry(frame3)
-        self.txtCOLOR.place(x=10,y=320,width=180, height=20)
-
         label7=Label(frame3,text="COSTO: ",font=("Comic Sans",12))
         label7.place(x=10,y=350)
         self.txtCOST=Entry(frame3)
         self.txtCOST.place(x=10,y=380,width=180, height=20)
+
+        label6=Label(frame3,text="COLOR: ",font=("Comic Sans",12))
+        label6.place(x=10,y=290)
+        self.txtCOLOR=Entry(frame3)
+        self.txtCOLOR.place(x=10,y=320,width=180, height=20)
 
         label8=Label(frame3,text="MARCA: ",font=("Comic Sans",12))
         label8.place(x=10,y=410)
