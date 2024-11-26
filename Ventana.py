@@ -3,7 +3,7 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 import pymysql
-import pandas as pd
+# import pandas as pd
 
 from inventario import *
 
@@ -55,8 +55,8 @@ class Ventana(Frame):
         self.txtPRODUCT3.delete(0,END)
         self.txtMARCA.delete(0,END)
 
-    def llenaDatos(self):  
-        datos = self.data.consulta_productos_combinados()  
+    def llenaDatos(self):
+        datos = self.data.consulta_productos()  
         self.limpiaGrid()      
         for row in datos:            
             self.grid.insert("",END,text=row[0], values=(row[1],row[2], row[3],row[4],row[5],row[6],row[7]))
@@ -96,24 +96,33 @@ class Ventana(Frame):
     def fSearchLabel(self):
         producto = self.txtPRODUCT3.get()
         marca=self.txtMARCA.get()
-        if True:
-            s = 'WHERE PRODUCTO = "{}" and MARCA="{}"'.format(producto,marca)
-            datos = self.data.buscar_productoymarca(s)
-            self.limpiaGrid()
-            self.limpiarCajas()
+        if producto and marca:
+            s = 'WHERE PRODUCTO = "{}" AND Descripcion_Marcas = "{}"'.format(producto.upper(), marca.upper())
+        elif producto:
+            s = 'WHERE PRODUCTO = "{}"'.format(producto.upper())
+        elif marca:
+            s = 'WHERE Descripcion_Marcas LIKE "%{}%"'.format(marca.upper())
+        else:
+            self.fSearch()  
+            return
+    
+        datos = self.data.buscar_productoymarca(s)
+        self.limpiaGrid()
+        self.limpiarCajas()
+
+        if datos:
             for row in datos:
                 self.grid.insert("", END, text=row[0], values=(row[1], row[2], row[3], row[4], row[5], row[6], row[7]))
-                
-                if not datos:
-                    messagebox.showinfo("Buscar", "No se encontraron productos con ese nombre.")
-    
+        else:
+            messagebox.showinfo("Buscar", "No se encontraron productos con ese criterio.")
+
     def fNew(self):
         self.habilitarCajasTexto("normal")
         self.habilitarBotonesCancel("normal")
         self.limpiarCajas()
         self.txtPRODUCT.focus()
 
-    def fSave(self):
+    def fSave(self): #------------REVISAR
         if self.ID==-1:
             self.data.inserta_producto(self.txtPRODUCT.get(),self.txtCATEGORY.get(),self.txtQUANTITY.get(),self.txtPRICE.get(),self.txtCOLOR.get(),self.txtCOST.get(),self.txtBRAND.get())
             messagebox.showinfo("Guardar", "Registro guardado correctamente")
@@ -130,7 +139,7 @@ class Ventana(Frame):
         self.limpiarCajas()
         self.habilitarCajasTexto("disabled")
 
-    def fModify(self):
+    def fModify(self): #------------REVISAR
         selected=self.grid.focus()
         clave=self.grid.item(selected,'text')
         if clave=="":
@@ -151,7 +160,7 @@ class Ventana(Frame):
             self.habilitarBotonesCancel("normal")
             self.txtPRODUCT.focus()
     
-    def fDelete(self):
+    def fDelete(self): #------------REVISAR
         selected=self.grid.focus()
         clave=self.grid.item(selected,'text')
         if clave=="":
